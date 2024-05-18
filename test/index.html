@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- [Attributes by Finsweet] Auto Video -->
+    <!-- [Attributes by Finsweet] Auto Video -->
+
+  <body>
+    <div style="height: 200vh"></div>
+    <div>
+      <video controls src="my-video.mp4"></video>
+
+    </div>
+    <div style="height: 200vh"></div>
+
+    <div style="height: 100vh">
+      <video controls src="my-video.mp4"></video>
+    </div>
+  </body>
+  <script>
+    const video = document.querySelector("video");
+let playState = null;
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) {
+      video.pause();
+      playState = false;
+    } else {
+      console.log('aaa');
+      video.play();
+      playState = true;
+    }
+  });
+}, {});
+
+observer.observe(video);
+
+const onVisibilityChange = () => {
+  if (document.hidden || !playState) {
+    video.pause();
+  } else {
+    video.play();
+  }
+};
+
+document.addEventListener("visibilitychange", onVisibilityChange);
+  </script>
+</html>
