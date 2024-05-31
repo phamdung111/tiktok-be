@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Facade;
-
 return [
 
     /*
@@ -124,11 +122,5 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-    // 'providers' => [
-    //     Intervention\Image\ImageServiceProvider::class,
-    // ],
-    // 'aliases' => Facade::defaultAliases()->merge([
-    //     'Image' => Intervention\Image\Facades\Image::class
-    //     // 'ExampleClass' => App\Example\ExampleClass::class,
-    // ])->toArray(),
+
 ];

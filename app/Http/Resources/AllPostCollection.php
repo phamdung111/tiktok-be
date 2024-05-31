@@ -2,15 +2,15 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Favorite;
 use App\Models\Like;
-use App\Models\Reply;
 use App\Models\User;
+use App\Models\Reply;
 use App\Models\Comment;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class AllPostsCollection extends ResourceCollection
+class AllPostCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -30,7 +30,7 @@ class AllPostsCollection extends ResourceCollection
                     return [
                         'id' => $comment->id,
                         'text' => $comment->text,
-                        'time'=> $comment->updated_at,
+                        'time'=> $comment->updated_at->format('m-d-Y H:i:s'),
                         'user' => User::where('id', $comment->user_id)->get()->map(function($user) {
                             return [
                                 'id' => $user->id,

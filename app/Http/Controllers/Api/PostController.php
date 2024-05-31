@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-use App\Services\FileService;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AllPostsCollection;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\AllPostCollection;
 
 class PostController extends Controller
 {
@@ -20,8 +20,10 @@ class PostController extends Controller
 
         try {
             $post = new Post;
-            $post = (new FileService)->addVideo($post, $request);
-
+            $video = $request->file('video');
+            $name = $video->hashName();
+            Storage::putFileAs('videos', $video, $name);
+            $post->video = '/storage/videos/' . $name;
             $post->user_id = auth()->user()->id;
             $post->text = $request->input('text');
             $post->save();
@@ -53,7 +55,7 @@ class PostController extends Controller
     public function getPostById($id){
         try {
             $post = Post::where("id",$id)->get();
-            return response()->json(new AllPostsCollection($post), 200);
+            return response()->json(new AllPostCollection($post), 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
@@ -63,7 +65,7 @@ class PostController extends Controller
         {
         try {
             $posts = DB::table('posts')->orderBy('created_at', 'desc')->get();
-            return response()->json(new AllPostsCollection($posts), 200);
+            return response()->json(new AllPostCollection($posts), 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
             }
@@ -73,7 +75,7 @@ class PostController extends Controller
     public function getAllPostsByUser($user_id){
         try {
             $posts = DB::table('posts')->where('user_id',$user_id)->orderBy('updated_at','desc')->get();
-            return response()->json(new AllPostsCollection($posts), 200);
+            return response()->json(new AllPostCollection($posts), 200);
         } catch (\Exception $e) {
             return response()->json(['error'=> $e->getMessage()], 400);
         }

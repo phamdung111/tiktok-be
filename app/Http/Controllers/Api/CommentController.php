@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\CommentCollection;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommentCollection;
 
 class CommentController extends Controller
 {
-     public function store (Request $request){
+    public function store (Request $request){
         $request->validate(['text'=>['required'],'post_id'=>['required']]);
         try{
     
@@ -38,5 +38,4 @@ class CommentController extends Controller
             return response()->json(['error'=> $e],400);
         }
     }
-
 }
