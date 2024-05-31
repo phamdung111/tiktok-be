@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\PeopleController;
 use App\Http\Controllers\Api\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -8,7 +9,6 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ReplyController;
 use App\Http\Controllers\Api\FollowController;
-use App\Http\Controllers\Api\PersonalController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\FavoriteController;
@@ -45,7 +45,7 @@ Route::middleware(['auth:sanctum'])->group( function () {
 Route::get('/getAllPosts', [PostController::class,'getAllPosts']);
 Route::get('/post/{id}', [PostController::class,'getPostById']);
 Route::get('/getPostsUser/{id}', [PostController::class,'getAllPostsByUser']);
-Route::get('/getPerson/{id}', [PersonalController::class,'getPerson']);
+Route::get('/getPerson/{id}', [PeopleController::class,'getPerson']);
 
 Route::get('/search/{content}', [SearchController::class,'search']);
 

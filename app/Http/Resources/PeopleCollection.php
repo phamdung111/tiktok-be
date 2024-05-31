@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class PersonalCollection extends ResourceCollection
+class PeopleCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -21,7 +21,7 @@ class PersonalCollection extends ResourceCollection
                 'name'=>$person->name,
                 'image'=> url('/') . $person->image,
                 'bio'=>$person->bio,
-                'peoplePosts'=>DB::table('posts')->where('user_id',$person->id)->get()->map(function ($post) {
+                'videos'=>DB::table('posts')->where('user_id',$person->id)->get()->map(function ($post) {
                     return[
                         'id' => $post->id,
                         'video'=> url('/') . $post->video,

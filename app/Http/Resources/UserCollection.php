@@ -2,16 +2,11 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Like;
-use App\Models\Post;
-use App\Models\User;
-use App\Models\Follow;
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class UsersCollection extends ResourceCollection
+class UserCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -27,7 +22,7 @@ class UsersCollection extends ResourceCollection
                 'bio'=>$user->bio,
                 'email'=> $user->email,
                 'image'=> url('/') . $user->image,
-                'myPosts'=>DB::table('posts')->where('user_id',$user->id)->get()->map(function ($post) {
+                'videos'=>DB::table('posts')->where('user_id',$user->id)->get()->map(function ($post) {
                     return[
                         'id' => $post->id,
                         'video'=> url('/') . $post->video,

@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Reply;
 use App\Models\User;
+use App\Models\Reply;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
