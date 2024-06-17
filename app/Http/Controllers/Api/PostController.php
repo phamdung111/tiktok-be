@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Post;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -50,7 +51,7 @@ class PostController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
-    }
+}
 
     public function getPostById($id){
         try {
@@ -61,10 +62,16 @@ class PostController extends Controller
         }
     }
 
-    public function getAllPosts(){
+    public function Posts(Request $request){
+        $offset = $request->get('offset');
+        $limit = $request->get('limit');
         {
         try {
-            $posts = DB::table('posts')->orderBy('created_at', 'desc')->get();
+            $posts = DB::table('posts')
+                ->orderBy('created_at', 'desc')
+                ->offset($offset)
+                ->limit($limit)
+                ->get();
             return response()->json(new AllPostCollection($posts), 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
@@ -76,6 +83,27 @@ class PostController extends Controller
         try {
             $posts = DB::table('posts')->where('user_id',$user_id)->orderBy('updated_at','desc')->get();
             return response()->json(new AllPostCollection($posts), 200);
+        } catch (\Exception $e) {
+            return response()->json(['error'=> $e->getMessage()], 400);
+        }
+    }
+    public function postByFollowing(Request $request){
+        try{
+            $offset = $request->get('offset');
+            $limit = $request->get('limit');
+            $usersFollowing = DB::table('follows')
+                ->where('user_id_follower', auth()->user()->id)
+                ->select('user_id_creator');
+
+            $posts = DB::table('posts')
+                ->joinSub($usersFollowing, 'users_following', function ($join) {
+                    $join->on('posts.user_id', '=', 'users_following.user_id_creator');
+                })
+                ->orderBy('updated_at','desc')
+                ->offset($offset)
+                ->limit($limit)
+                ->get();
+            return response()->json(new AllPostCollection($posts),200);
         } catch (\Exception $e) {
             return response()->json(['error'=> $e->getMessage()], 400);
         }

@@ -42,10 +42,11 @@ Route::middleware(['auth:sanctum'])->group( function () {
 
 });
 
-Route::get('/getAllPosts', [PostController::class,'getAllPosts']);
+Route::get('/posts', [PostController::class,'Posts']);
 Route::get('/post/{id}', [PostController::class,'getPostById']);
 Route::get('/getPostsUser/{id}', [PostController::class,'getAllPostsByUser']);
 Route::get('/getPerson/{id}', [PeopleController::class,'getPerson']);
+Route::get('/following', [PostController::class,'postByFollowing']);
 
 Route::get('/search/{content}', [SearchController::class,'search']);
 
