@@ -25,6 +25,7 @@ class AllPostCollection extends ResourceCollection
                 'id' => $post->id,
                 'text' => $post->text,
                 'video' => url('/') . $post->video,
+                'image' => url('/') . $post->image,
                 'created_at' => $post->created_at,
                 'comments' => Comment::where('post_id',$post->id)->orderBy('updated_at','desc')->get()->map(function ($comment) {
                     return [
