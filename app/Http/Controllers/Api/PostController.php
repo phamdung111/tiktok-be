@@ -16,15 +16,23 @@ class PostController extends Controller
     {
         $request->validate([
             'video' => 'required|mimes:mp4',
+            'image' => 'required',
             'text' => 'required'
         ]);
 
         try {
             $post = new Post;
             $video = $request->file('video');
-            $name = $video->hashName();
-            Storage::putFileAs('videos', $video, $name);
-            $post->video = '/storage/videos/' . $name;
+            $image = $request->file('image');
+
+            $videoName = $video->hashName();
+            Storage::putFileAs('videos', $video, $videoName);
+            $post->video = '/storage/videos/' . $videoName;
+            
+            $imageName = $image->hashName();
+            Storage::putFileAs('images', $image, $imageName);
+            $post->image = '/storage/images/' . $imageName;
+
             $post->user_id = auth()->user()->id;
             $post->text = $request->input('text');
             $post->save();
