@@ -23,7 +23,6 @@ Route::middleware(['auth:sanctum'])->group( function () {
     Route::delete('/deletePost/{id}', [PostController::class, 'destroy']);
 
 
-    Route::get('/profile/{id}', [ProfileController::class,'show']);
 
     Route::post('/like', [LikeController::class,'store']);
     Route::post('/unLike', [LikeController::class,'destroy']);
@@ -42,11 +41,11 @@ Route::middleware(['auth:sanctum'])->group( function () {
 
 });
 
+Route::get('/profile/{id}', [ProfileController::class,'show']);
 Route::get('/posts', [PostController::class,'Posts']);
 Route::get('/post/{id}', [PostController::class,'getPostById']);
 Route::get('/getPostsUser/{id}', [PostController::class,'getAllPostsByUser']);
 Route::get('/getPerson/{id}', [PeopleController::class,'getPerson']);
 Route::get('/following', [PostController::class,'postByFollowing']);
-
 Route::get('/search/{content}', [SearchController::class,'search']);
 

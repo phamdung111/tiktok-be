@@ -53,6 +53,7 @@ class PostController extends Controller
             if (!is_null($post->video) && file_exists(public_path() . $post->video)) {
                 unlink(public_path() . $post->video);
             }
+            Storage::deleteDirectory($post);
             $post->delete();
 
             return response()->json(['status' => 'success'], 200);
